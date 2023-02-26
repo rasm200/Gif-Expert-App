@@ -1,31 +1,22 @@
-import { useState } from 'react '
-import { AddCategory } from './components/AddCategory';
+import { useState } from "react";
+import { AddCategory, GifGrid } from "./components";
 
 export const GifExpertApp = ({ version }) => {
+  const [categories, setCategories] = useState(["One Punch"]);
 
-    const [categories, setCategories] = useState(['One Punch', 'Dragon Ball']);
+  const onAddCategory = (newCategory) => {
+    if (categories.includes(newCategory)) return;
+    setCategories([newCategory, ...categories]);
+  };
 
-    const onAddCategory = () => {
-
-        setCategories(['Valorant', ...categories]);
-    }
-    return (
-        <>
-            <h1>GifExpertApp (Version {version})</h1>
-            <hr />
-
-            {/* Input */}
-            <AddCategory setCategories={setCategories} />
-
-            <button onClick={onAddCategory} >Agregar categoría</button>
-            <ol>
-                {
-                    categories.map(category => {
-                        return <li key={category}>{category}</li>
-                    })
-                }
-            </ol>
-
-        </>
-    )
-}
+  return (
+    <>
+      <h1>GifExpertApp (Version {version})</h1>
+      <hr />
+      <AddCategory onNewCategory={(value) => onAddCategory(value)} />
+      {categories.map((category) => (
+        <GifGrid key={category} category={category} />
+      ))}
+    </>
+  );
+};
